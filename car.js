@@ -16,12 +16,12 @@ class Car {
         this.controls = new Controls()
     }
 
-    update() {
+    update(roadBorders) {
         this.#move()
-        this.sensor.update()    
+        this.sensor.update(roadBorders)
     }
 
-    #move(){
+    #move() {
 
         //TO move forward we increment the velocity by acceleration
         if (this.controls.forward) {
@@ -37,13 +37,13 @@ class Car {
         //  if the car has negative velocity, flip the angle of rotation
         //  (this simulates a car always turning the same direction as the wheel is turned)
         //      TO turn the car increment the angle by .03 (see unit circle)
-        if(this.velocity != 0){
-            const flip = this.velocity > 0 ? 1: -1
-            if(this.controls.left){
-                this.angle += 0.02*flip
+        if (this.velocity != 0) {
+            const flip = this.velocity > 0 ? 1 : -1
+            if (this.controls.left) {
+                this.angle += 0.02 * flip
             }
-            if(this.controls.right){
-                this.angle -= 0.02*flip
+            if (this.controls.right) {
+                this.angle -= 0.02 * flip
             }
         }
 
@@ -69,17 +69,17 @@ class Car {
         //we set the velocity to 0 when below the friction value
         if (Math.abs(this.velocity) < this.friction) {
             this.velocity = 0
-        }        
+        }
 
         //TO change the position of the car we adjust the x and y values to
         //sin/cos of the car's angle and multiply by the velocity
-        this.x -= Math.sin(this.angle)*this.velocity
-        this.y -= Math.cos(this.angle)*this.velocity
+        this.x -= Math.sin(this.angle) * this.velocity
+        this.y -= Math.cos(this.angle) * this.velocity
     }
 
     draw(ctx) {
         ctx.save()
-        ctx.translate(this.x,this.y)
+        ctx.translate(this.x, this.y)
         ctx.rotate(-this.angle)
 
         ctx.beginPath()
