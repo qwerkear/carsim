@@ -1,11 +1,18 @@
 class Controls {
-    constructor() {
+    constructor(type) {
         this.forward = false
         this.left = false
         this.right = false
         this.reverse = false
 
-        this.#addKeyboardListeners()
+        switch(type){
+            case "KEYS":
+                this.#addKeyboardListeners()
+                break
+            case "DUMMY":
+                this.forward = true
+                break
+            }
     }
 
     //TO accept user input, we map the keyup and keydown values of the arrow keys
