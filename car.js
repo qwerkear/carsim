@@ -26,9 +26,9 @@ class Car {
 
     update(roadBorders, traffic) {
         if (!this.damaged) { //this line will stop motion if the car becomes damaged
-        this.#move()
-        this.polygon = this.#createPolygon()
-        this.damaged = this.#assessDamage(roadBorders, traffic)
+            this.#move()
+            this.polygon = this.#createPolygon()
+            this.damaged = this.#assessDamage(roadBorders, traffic)
         }
         if (this.sensor) {
             this.sensor.update(roadBorders, traffic)
