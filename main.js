@@ -17,7 +17,7 @@ if(localStorage.getItem("bestBrain")){
             localStorage.getItem("bestBrain")
         )
         if(i!=0){
-            NeuralNetwork.mutate(cars[i].brain,0.2)
+            NeuralNetwork.mutate(cars[i].brain,0.15) //adjust variability in cars
         }
     }
     
@@ -35,6 +35,7 @@ const initialTraffic = [
 ]
 
 const trafficController = new TrafficController(initialTraffic, bestCar)
+const populationController = new CarPopulationController(cars, bestCar)
 
 animate();
 
@@ -59,6 +60,7 @@ function generateCars(N) {
 function animate(time) {
     let traffic = trafficController.getTraffic()
     trafficController.update()
+    populationController.update()
     for (let i = 0; i < traffic.length; i++) {
         traffic[i].update(road.borders, [])
     }
@@ -71,6 +73,9 @@ function animate(time) {
             ...cars.map(c => c.y)
         )
     )
+
+    trafficController.setCarToFollow(bestCar)
+    populationController.setCarToFollow(bestCar)
 
     carCanvas.height = window.innerHeight;
     networkCanvas.height = window.innerHeight;
@@ -87,6 +92,7 @@ function animate(time) {
         cars[i].draw(carCtx, "red")
     }
     trafficController.draw(carCtx)
+    populationController.draw(carCtx)
     carCtx.globalAlpha = 1
     bestCar.draw(carCtx, "red", true)
 
