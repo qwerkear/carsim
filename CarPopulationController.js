@@ -13,7 +13,12 @@ class CarPopulationController {
         this.carToFollow = c
     }
 
+    getPopulation(){
+        return this.population
+    }
+
     update() {
+        this.y = this.carToFollow.y
         for(let i = 0; i < this.population.length; i++){
             if(this.population[i].damaged && this.population[i] != this.carToFollow){
                 this.population.splice(i, 1)

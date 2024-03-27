@@ -9,15 +9,15 @@ const networkCtx = networkCanvas.getContext("2d");
 const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9)
 //const car = new Car(road.getLaneCenter(3), 100, 30, 50, "AI", 5);
 const N = 1000;
-const cars = generateCars(N)
-let bestCar = cars[0]
+const initialCars = generateCars(N)
+let bestCar = initialCars[0]
 if(localStorage.getItem("bestBrain")){
-    for(let i = 0; i<cars.length; i++){
-        cars[i].brain=JSON.parse(
+    for(let i = 0; i< initialCars.length; i++){
+        initialCars[i].brain=JSON.parse(
             localStorage.getItem("bestBrain")
         )
         if(i!=0){
-            NeuralNetwork.mutate(cars[i].brain,0.15) //adjust variability in cars
+            NeuralNetwork.mutate(initialCars[i].brain,0.15) //adjust variability in cars
         }
     }
     
@@ -35,7 +35,7 @@ const initialTraffic = [
 ]
 
 const trafficController = new TrafficController(initialTraffic, bestCar)
-const populationController = new CarPopulationController(cars, bestCar)
+const populationController = new CarPopulationController(initialCars, bestCar)
 
 animate();
 
@@ -59,6 +59,7 @@ function generateCars(N) {
 
 function animate(time) {
     let traffic = trafficController.getTraffic()
+    let cars = populationController.getPopulation()
     trafficController.update()
     populationController.update()
     for (let i = 0; i < traffic.length; i++) {
